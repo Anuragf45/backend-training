@@ -6,6 +6,7 @@ const formatt=require('../validator/formatter')
 
 const underScore=require('underscore');
 const lodashh=require('lodash');
+const { json } = require('body-parser');
 const router = express.Router();
 
 router.get('/test-me', function (req, res) {
@@ -51,6 +52,14 @@ const keyVal=[["Ram","Lakshman"],["Krishna","Balram"],["radhe","krishna"]]
 console.log(lodashh.fromPairs(keyVal));
 });
 
+router.get('/student-details:name',function(req,res){
+    const students=["anurag",'Aman'];
+    console.log("This is the name " + JSON.stringify(req.params))
+    let reqParams=req.params;
+    let studentName=reqParams.name;
+
+    res.send(studentName + " Srivastava")
+})
 
 router.get('/test-you', function(req, res){
 
