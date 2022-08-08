@@ -33,23 +33,23 @@ router.get('/test-me', function (req, res) {
 
 
     //lodash
-const arr=["Januray","February","march","april","May","june","july","August","september","october","november","december"]
-console.log(lodashh.chunk(arr,4))
+// const arr=["Januray","February","march","april","May","june","july","August","september","october","november","december"]
+// console.log(lodashh.chunk(arr,4))
 
-console.log("=============2=============");
-const odd=[1,3,5,7,9,11,13,15,17,19];
-console.log(lodashh.tail(odd));
-console.log("=============3=============");
-const arr1=[1,2,3,4];
-const arr2=[2,4,7,9];
-const arr3=[4,5,2,8];
-const arr4=[90.5,2,3];
-const arr5=[3,4,2,7];
+// console.log("=============2=============");
+// const odd=[1,3,5,7,9,11,13,15,17,19];
+// console.log(lodashh.tail(odd));
+// console.log("=============3=============");
+// const arr1=[1,2,3,4];
+// const arr2=[2,4,7,9];
+// const arr3=[4,5,2,8];
+// const arr4=[90.5,2,3];
+// const arr5=[3,4,2,7];
 
-console.log(lodashh.uniq(arr1,arr2,arr3,arr4,arr5));
-console.log("=============4=============");
-const keyVal=[["Ram","Lakshman"],["Krishna","Balram"],["radhe","krishna"]]
-console.log(lodashh.fromPairs(keyVal));
+// console.log(lodashh.uniq(arr1,arr2,arr3,arr4,arr5));
+// console.log("=============4=============");
+// const keyVal=[["Ram","Lakshman"],["Krishna","Balram"],["radhe","krishna"]]
+// console.log(lodashh.fromPairs(keyVal));
 });
 
 router.get('/student-details:name',function(req,res){
@@ -61,15 +61,53 @@ router.get('/student-details:name',function(req,res){
     res.send(studentName + " Srivastava")
 })
 
-router.get('/test-you', function(req, res){
-
-res.send('This is the second routes implementation')
+router.get('/GET/movies',function(req,res){
+   const movies= ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"];
+  
+   res.send(movies)
 })
 
-router.get('/test-us',function(req, res){
+router.get('/GET/movies/:indexNumber',function(req,res){
+    const movies= ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"];
+    let a=req.params;
+    let b=Object.values(a)
+    for(let i=0;i<=b.length-1;i++){
+        console.log(b[i]);
+        let c=b[i];
+        if(c<=movies.length-1){
+            res.send(res.send(movies[c]))
+        }else{
+            res.send("Enter valid index")
+        }
+    }
+    })
+
+
+    router.get('/GET/films',function(req,res){
+        const moviess=[{
+            id: 1,
+            name: "The Shining"
+           }, {
+            id: 2,
+            name:" Incendies"
+           }, {
+            id: 3,
+            name: "Rang de Basanti"
+           }, {
+            id: 4,
+            name: "Finding Nemo"
+           }]
+           res.send(moviess)
+    })
+// router.get('/test-you', function(req, res){
+
+// res.send('This is the second routes implementation')
+// })
+
+// router.get('/test-us',function(req, res){
  
 
-    res.send('This is test-us router')
-})
+//     res.send('This is test-us router')
+// })
 module.exports = router;
 // adding this comment for no reason
