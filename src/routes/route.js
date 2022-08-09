@@ -111,3 +111,40 @@ router.get('/GET/movies/:indexNumber',function(req,res){
 // })
 module.exports = router;
 // adding this comment for no reason
+
+
+
+router.get('/sol-1',function(req,res){
+    let arr= [1,2,3,5,6,7]
+ 
+    let total = 0;
+   for(let i=0;i<arr.length;i++){
+       total=total+arr[i];
+       
+   }
+ const lastDigit=arr.pop()
+ 
+ 
+ const consSum=lastDigit*(lastDigit+1)/2;
+ const missingNumber=consSum-total;
+  
+    res.send(  "missing number is " + missingNumber  );
+  });
+ 
+
+  router.get('/sol-2',function(req,res){
+    let arr= [33, 34, 35, 37, 38]
+   let len= arr.length
+ 
+   let total = 0;
+   for (let i=0;i<len;i++) {
+       total =total+ arr[i];
+   }
+ 
+   let firstDigit= arr[0]
+   let lastDigit= arr.pop()
+   let consecutiveSum= (len + 1) * (firstDigit+ lastDigit ) / 2
+   let missingNumber= consecutiveSum - total
+  
+    res.send(  "missing number is " + missingNumber  );
+  });
