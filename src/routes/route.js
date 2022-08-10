@@ -1,6 +1,6 @@
 const express = require('express');
-const { toNumber } = require('lodash');
-const abc = require('../introduction/intro')
+// const  toNumber  = require('lodash');
+// const abc = require('../introduction/intro')
 const router = express.Router();
 
 router.get('/test-me', function (req, res) {
@@ -139,4 +139,78 @@ router.get("/GET/films/:filmId", function (req, res) {
     }
     res.send(result);
   });
+
+
+  router.post('/test-m', function (req, res) {
+   res.send('My second ever api!')
+   let id=req.body.name;
+   let password=req.body.password;
+   console.log(id,password)
+   console.log(req.body);
+});
+
+
+router.post('/test-assignment', function(req,res){
+
+  let players =
+  [
+      {
+          "name": "manish",
+          "dob": "1/1/1995",
+          "gender": "male",
+          "city": "jalandhar",
+          "sports": [
+              "swimming"
+          ]
+      },
+      {
+          "name": "gopal",
+          "dob": "1/09/1995",
+          "gender": "male",
+          "city": "delhi",
+          "sports": [
+              "soccer"
+          ]
+      },
+      {
+          "name": "lokesh",
+          "dob": "1/1/1990",
+          "gender": "male",
+          "city": "mumbai",
+          "sports": [
+              "soccer"
+          ]
+      },
+  ]
+
+  let obj=  {
+    "name": "manisha",
+    "dob": "1/1/1995",
+    "gender": "male",
+    "city": "jalandhar",
+    "sports": [
+    "swimming"
+    ]
+    }
+
+  let reqData = req.body;
+let newPlayerName = reqData.name;
+let isNameRepeated = false;
+ 
+for(let i=0;i<players.length;i++){
+  if(players[i].name==newPlayerName){
+    isNameRepeated=true;
+    break;
+  }
+}
+if(isNameRepeated){
+  res.send("This player is already added")
+}else{
+  players.push(reqData)
+  res.send(players);
+}
+
+})
+
 module.exports = router;
+
