@@ -152,36 +152,36 @@ const router = express.Router();
 
 // router.post('/test-assignment', function(req,res){
 
-//   let players =
-//   [
-//       {
-//           "name": "manish",
-//           "dob": "1/1/1995",
-//           "gender": "male",
-//           "city": "jalandhar",
-//           "sports": [
-//               "swimming"
-//           ]
-//       },
-//       {
-//           "name": "gopal",
-//           "dob": "1/09/1995",
-//           "gender": "male",
-//           "city": "delhi",
-//           "sports": [
-//               "soccer"
-//           ]
-//       },
-//       {
-//           "name": "lokesh",
-//           "dob": "1/1/1990",
-//           "gender": "male",
-//           "city": "mumbai",
-//           "sports": [
-//               "soccer"
-//           ]
-//       },
-//   ]
+  let players =
+  [
+      {
+          "name": "manish",
+          "dob": "1/1/1995",
+          "gender": "male",
+          "city": "jalandhar",
+          "sports": [
+              "swimming"
+          ]
+      },
+      {
+          "name": "gopal",
+          "dob": "1/09/1995",
+          "gender": "male",
+          "city": "delhi",
+          "sports": [
+              "soccer"
+          ]
+      },
+      {
+          "name": "lokesh",
+          "dob": "1/1/1990",
+          "gender": "male",
+          "city": "mumbai",
+          "sports": [
+              "soccer"
+          ]
+      },
+  ]
 
 // let newPlayer=req.body;
 // let newPlayerName=newPlayer.name;
@@ -270,9 +270,9 @@ router.post('/post-voterId', function(req,res){
   votingStatus: false
   },
   ]
-  
-  let personCanVote=false;
-  let personAge=""
+ 
+ 
+  let personAge="";
   let votingAge=req.query.input;
   for(let i=0;i<person.length;i++){
   
@@ -282,11 +282,11 @@ router.post('/post-voterId', function(req,res){
      continue;
   
     }
+   
   }
+  let result=person.filter(x=>x.votingStatus==true)
   
-  res.send(person)
-  
-  
+   res.send(result)
   })
   
 
