@@ -183,34 +183,68 @@ router.post('/test-assignment', function(req,res){
       },
   ]
 
-  let obj=  {
-    "name": "manisha",
-    "dob": "1/1/1995",
-    "gender": "male",
-    "city": "jalandhar",
-    "sports": [
-    "swimming"
-    ]
-    }
+let newPlayer=req.body;
+let newPlayerName=newPlayer.name;
+let isPlayerRepeated=false;
 
-  let reqData = req.body;
-let newPlayerName = reqData.name;
-let isNameRepeated = false;
- 
 for(let i=0;i<players.length;i++){
   if(players[i].name==newPlayerName){
-    isNameRepeated=true;
+    isPlayerRepeated=true;
     break;
   }
 }
-if(isNameRepeated){
-  res.send("This player is already added")
+
+if(isPlayerRepeated){
+  res.send("Player is repeated")
 }else{
-  players.push(reqData)
-  res.send(players);
+  players.push(newPlayer)
+  res.send(players)
+  
 }
 
+ })
+
+ //   let reqData = req.body;
+// let newPlayerName = reqData.name;
+// let isNameRepeated = false;
+ 
+// for(let i=0;i<players.length;i++){
+//   if(players[i].name==newPlayerName){
+//     isNameRepeated=true;
+//     break;
+//   }
+// }
+// if(isNameRepeated){
+//   res.send("This player is already added")
+// }else{
+//   players.push(reqData)
+//   res.send(players);
+// }
+
+
+router.get('/get-query-1',function(req,res){
+let number=req.query.number;
+  let arr=[23,34,45,56,67,87,89,54,65,76,87]
+  let result=arr.filter(x=>x>number);
+  res.send(result);
 })
+
+router.post('/post-bookingNumber',function(req,res){
+let abc={
+  bookingNumber: 1,
+   sportId: "",
+   centerId:"" ,
+  type: "private",
+  slot: "16286598000000",
+  bookedOn: "31/08/2021",
+  bookedFor: "01/09/2021"
+ }
+ 
+console.log(abc)
+res.send("dummy")
+})
+
+
 
 module.exports = router;
 
