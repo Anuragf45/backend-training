@@ -1,15 +1,34 @@
 const express = require('express');
+const { createUser } = require('../controllers/userController');
 // const  toNumber  = require('lodash');
 // const abc = require('../introduction/intro')
 const router = express.Router();
+const UserModel=require('../models/userModel')
+const Usercontroller=require('../controllers/userController')
 
-// router.get('/test-me', function (req, res) {
-//     console.log('My batch is', abc.name)
-//     abc.printName()
-//     logger.welcome()
 
-//     res.send('My second ever api!')
-// });
+router.post('/test-me', function (req, res) {
+    
+
+    res.send('My second ever api!')
+});
+
+router.post('/createUser', Usercontroller.createUser)
+
+router.get('/getUserData', Usercontroller.getUserData)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // router.get('/students', function (req, res){
 //     let students = ['Sabiha', 'Neha', 'Akash']
@@ -289,6 +308,9 @@ router.post('/post-voterId', function(req,res){
    res.send(result)
   })
   
+
+
+
 
 module.exports = router;
 
