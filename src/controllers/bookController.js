@@ -1,49 +1,63 @@
-const { db } = require("../models/bookModel");
-const bookModel = require("../models/bookModel");
-//problem-1
-let createData=async function(req,res){
-
-    let data=req.body;
-    let savedData= await bookModel.create(data);
+const authorModels = require("../models/authorModels");
+const bookModel = require("../models/bookModel")
+//creating book
+let createBook=async function(req,res){
+    let data = req.body;
+    let savedData=await bookModel.create(data);
     res.send(savedData);
-}
-//problem-2
-let getBook=async function(req,res){
-    let giveData=await bookModel.find().select({bookName:1,authorName:1})
-    res.send({giveData})
-}
-//problem - 3
-let getBooksInYear= async function(req,res){
-    let input=req.query.input;
-    let giveData=await bookModel.find({year:{$eq:input}})
-    res.send({giveData})
+
 }
 
-//problem-5
-let priceBook=async function(req,res){
-
-    let giveData=await bookModel.find({'price.indianPrice':{$in:["Rs.100","Rs.200","Rs.500"]}})
-    
-    
-   res.send({giveData})
-    
-}
-
-//problem-6
-let random=async function(req,res){
-    let giveData=await bookModel.find({$or:[{stockAvailable:false},{totalPages:{$gt:500}}]})
-    res.send({giveData});
-}
-
-//problem-4
-let bodyFetch=async function(req,res){
+// creating author 
+let createAuthor=async function(req,res){
     let data=req.body;
-    let savedData=await bookModel.find(data)
-    res.send({savedData});
+    let savedData=await authorModels.create(data);
+    res.send(savedData)
 }
-module.exports.createData=createData;
-module.exports.getBook=getBook
-module.exports.getBooksInYear=getBooksInYear;
-module.exports.priceBook=priceBook;
-module.exports.random=random;
-module.exports.bodyFetch=bodyFetch;
+
+//finding book list by author name
+let findAuthor=async function(req,res){
+    let result1=await authorModels.findOne({author_name:"Chetan Bhagat"}).select({author_id:1})
+    
+   let result2= await bookModel.find({author_id:result1.author_id});
+    res.send({result2})
+
+}
+
+
+//find author of two states and update book price to 100;
+
+let updatePrice= async function(req,res){
+    let result1=await bookModel.findOneAndUpdate(
+        {name:"two States"}, //condition
+        {$set:{price:100}} //update
+    );
+
+    let result2=await bookModel.findOne({name:"two States"}).select({price:1})
+    let result3= await authorModels.findOne({author_id:result1.author_id}).select({author_name:1});
+
+    res.send({result2, result3})
+}
+
+
+// Find the books which costs between 50-100(50,100 inclusive) and respond back with the author names of respective books
+
+let range=async function(req,res){
+    let result1=await bookModel.findOne({ price : { $gte: 50},price: {$lte: 100} }).select({author_id:1});
+   
+   
+    // console.log(result1)
+    let result3= await authorModels.find({author_id:result1.author_id}).select({author_name:1})
+    res.send(result3);
+}
+
+
+
+
+
+module.exports.createBook=createBook;
+module.exports.createAuthor=createAuthor;
+module.exports.findAuthor=findAuthor;
+module.exports.updatePrice=updatePrice;
+module.exports.range=range;
+
