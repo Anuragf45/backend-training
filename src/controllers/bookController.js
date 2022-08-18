@@ -43,11 +43,14 @@ let updatePrice= async function(req,res){
 // Find the books which costs between 50-100(50,100 inclusive) and respond back with the author names of respective books
 
 let range=async function(req,res){
-    let result1=await bookModel.findOne({ price : { $gte: 50},price: {$lte: 100} }).select({author_id:1});
+    let result1=await bookModel.find({ price : { $gte: 50},price: {$lte: 100} }).select({author_id:1});
    
    
-    // console.log(result1)
-    let result3= await authorModels.find({author_id:result1.author_id}).select({author_name:1})
+  result3=await authorModels.find(result1.forEach(element => {
+    {author_id:result1.author_id}
+  })).select({author_name:1})
+
+    
     res.send(result3);
 }
 
