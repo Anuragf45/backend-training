@@ -1,66 +1,82 @@
-const authorModels = require("../models/authorModels");
-const bookModel = require("../models/bookModel")
-//creating book
-let createBook=async function(req,res){
-    let data = req.body;
-    let savedData=await bookModel.create(data);
-    res.send(savedData);
+const e = require("express");
+const { set } = require("mongoose");
+const newAuthorModel = require("../models/newAuthorModel");
+const newBookModel = require("../models/newBookModel");
+const newPublisherModel = require("../models/newPublisherModel");
 
+const createBook=async function(req,res){
+
+
+let b=req.body.author;
+let d=req.body.publisher;
+let a=await newAuthorModel.findOne({"_id":{$in:[b]}})
+let c=await newPublisherModel.findOne({"_id":{$in:[d]}})
+
+ 
+
+  
+if(b){
+      if(d){
+               if(a==null || a.id!=b){
+                res.send("Enter valid author id")
+                
+               }else{
+                     if(c==null || c.id!=d){
+                        res.send("publisher id is not valid")
+                     }else if(a.id==b && c.id==d){
+
+                                let savedData=await newBookModel.create(req.body); //create entry
+                 res.send(savedData)
+
+                     }
+               }
+      }else{
+        res.send("Publisher is mandatory")
+      }
+}else{
+    res.send("Author is mandatory")
 }
 
-// creating author 
-let createAuthor=async function(req,res){
-    let data=req.body;
-    let savedData=await authorModels.create(data);
-    res.send(savedData)
+}
+//getData
+const getData=async function(req,res){
+
+    const savedData=await newBookModel.find().populate("author").populate("publisher");
+    res.send({savedData})
+}
+//update-1
+
+
+let updateBol=async function(req,res){
+    let res1=await newPublisherModel.find({name:{$in:["Penguin","HarperCollins"]}});
+    let res2=res1.map(x=>x.id);
+    let res3=await newBookModel.updateMany(
+        {publisher:res2}, //condition
+        {$set:{isHardCover:true}},
+        {upsert:true}
+        
+     
+    )
+    res.send(res3)
 }
 
-//finding book list by author name
-let findAuthor=async function(req,res){
-    let result1=await authorModels.findOne({author_name:"Chetan Bhagat"}).select({author_id:1})
-    
-   let result2= await bookModel.find({author_id:result1.author_id});
-    res.send({result2})
+//update-2
 
+
+let update=async function(req,res){
+
+
+let res1=await newAuthorModel.find({rating:{$gt:3.5}})
+let res2 =res1.map(x=>x.id)
+
+let res3=await newBookModel.updateMany(
+    {author:res2}, //condtion
+    {$inc:{price:10}}, //update
+    {new:true}
+)
+res.send(res3)
 }
-
-
-//find author of two states and update book price to 100;
-
-let updatePrice= async function(req,res){
-    let result1=await bookModel.findOneAndUpdate(
-        {name:"two States"}, //condition
-        {$set:{price:100}} //update
-    );
-
-    let result2=await bookModel.findOne({name:"two States"}).select({price:1})
-    let result3= await authorModels.findOne({author_id:result1.author_id}).select({author_name:1});
-
-    res.send({result2, result3})
-}
-
-
-// Find the books which costs between 50-100(50,100 inclusive) and respond back with the author names of respective books
-
-let range=async function(req,res){
-    let result1=await bookModel.find({ price : { $gte: 50},price: {$lte: 100} }).select({author_id:1});
-   
-   
-  result3=await authorModels.find(result1.forEach(element => {
-    {author_id:result1.author_id}
-  })).select({author_name:1})
-
-    
-    res.send(result3);
-}
-
-
-
-
-
 module.exports.createBook=createBook;
-module.exports.createAuthor=createAuthor;
-module.exports.findAuthor=findAuthor;
-module.exports.updatePrice=updatePrice;
-module.exports.range=range;
-
+module.exports.getData=getData;
+module.exports.update=update;
+module.exports.updateBol=updateBol
