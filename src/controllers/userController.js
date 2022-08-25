@@ -1,22 +1,9 @@
-const UserModel=require('../models/userModel')
 
 
-
-const createUser=async function(req,res){
-
-    let data=req.body;
+let a=function (req, res) {
+   
   
-  
-   let savedData=await UserModel.create(data)
-  
-   res.send({msg:savedData})
-  }
+    res.send("The details have been logged to the console")
+}
 
-
-  const getUserData=async function(req,res){
-    let allUsers=await UserModel.find()
-    
-      res.send({msg:allUsers})}
-
-  module.exports.createUser=createUser;
-  module.exports.getUserData=getUserData
+module.exports.a=a;
