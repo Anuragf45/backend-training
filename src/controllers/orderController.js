@@ -23,14 +23,17 @@ const createOrder=async function(req,res){
             {_id:userId},
             {$set:{balance:c}}  )
             data['amount']=productPrice.price;
-            data['isFreeAppUser']=req.headers.isFreeAppUser;
+            data['isFreeAppUser']=req.headers.isfreeappuser;
        
         let savedData1=await orderModel.create(data)
         res.send({savedData1})
     }else if(isfreeappuser=="true"){
-        let savedData=await (await orderModel.create(data)).updateOne({"amount":0})
-        res.send(savedData)
-
+        // let savedData=await (await orderModel.create(data)).updateOne({"amount":0})
+        // res.send(savedData)
+        data['amount']=0;
+        data['isFreeAppUser']=true;
+        let savedData=await orderModel.create(data);
+        res.send({OrderPlaced : savedData});
 
     }
 
