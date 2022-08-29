@@ -3,6 +3,7 @@ const router = express.Router();
 const myUserController=require('../controllers/myUserController');
 const middleware=require('../middleware/auth1')
 
+
 router.post('/createUser',myUserController.createData)
 router.post('/loginUser',myUserController.login);
 
